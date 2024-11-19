@@ -1,57 +1,79 @@
-# Service Account Permissions for Infrastructure and Deployment
+# GCP Image Cloud
 
-## Required Roles
+## Overview
 
-### 1. Artifact Registry Reader
-- **Purpose**: Allows the service account to pull Docker images from the Google Artifact Registry for Cloud Run deployment.
+The **GCP Image Cloud** project is designed to showcase the deployment of a containerized Node.js application using Google Cloud Platform (GCP) infrastructure. This project leverages Docker, Terraform, and CI/CD workflows to ensure a streamlined and automated deployment pipeline.
 
-### 2. Artifact Registry Writer
-- **Purpose**: Allows the service account to push Docker images to the Google Artifact Registry during the CI/CD pipeline build process.
+---
 
-### 3. Cloud Run Admin
-- **Purpose**: Grants full control over Cloud Run services, enabling the deployment and management of Cloud Run resources.
+## Features
 
-### 4. Cloud Run Invoker
-- **Purpose**: Allows the service account to grant unauthenticated access (`allUsers`) to the Cloud Run service.
+- **Node.js Application**:
+  - A lightweight web server built using the Express framework.
+  - The application logic is defined in `app.js`.
 
-### 5. Storage Admin
-- **Purpose**: Provides full control over Google Cloud Storage buckets and objects, enabling Terraform to manage backend state (read/write/delete Terraform state files).
+- **Containerization**:
+  - Dockerized application for portability and scalability.
+  - Includes a `Dockerfile` and `.dockerignore` for efficient builds.
 
-### 6. Service Account User
-- **Purpose**: Enables the service account to impersonate itself or other service accounts during resource deployment.
+- **Infrastructure as Code (IaC)**:
+  - Utilizes Terraform to provision cloud resources on GCP.
+  - Supports automated infrastructure management and deployment.
 
-## Notes
-- This configuration follows the principle of **least privilege** and ensures that only the necessary permissions are granted to the service account.
-- If additional access is required for specific operations, roles can be adjusted accordingly.
+- **CI/CD Automation**:
+  - GitHub Actions workflows for building, testing, and deploying the application.
+  - Ensures continuous integration and deployment practices.
 
+---
 
+## Repository Structure
 
-# Secrets Configuration for Deployment
+- `.github/workflows`:
+  - Contains GitHub Actions configuration for CI/CD automation.
 
-This section explains the required secrets for your CI/CD pipeline and their purposes.
+- `docker-image`:
+  - Docker-related files including `Dockerfile` and test application code.
 
-## Secrets and Their Values
+- `requirements`:
+  - Additional information in order to completete the workflow
 
-### 1. `GCP_CREDENTIALS`
-- **Value**: The JSON key file of the Google Cloud service account.
-- **Purpose**: Used to authenticate the CI/CD pipeline with Google Cloud to manage resources like Artifact Registry, Cloud Run, and GCS.
+- `terraform`:
+  - Terraform files for provisioning GCP infrastructure.
 
-### 2. `GCP_PROJECT_ID`
-- **Value**: The ID of your Google Cloud project (e.g., `my-project-id`).
-- **Purpose**: Specifies the Google Cloud project where resources will be managed.
+- `README.md`:
+  - Project documentation (this file).
 
-### 3. `GCP_REGION`
-- **Value**: The region where your Google Cloud resources are deployed (e.g., `us-central1`).
-- **Purpose**: Indicates the region for deploying resources like Cloud Run and Artifact Registry.
+---
 
-### 4. `GCP_REPOSITORY`
-- **Value**: The name of your Google Artifact Registry repository (e.g., `my-repo`).
-- **Purpose**: Specifies the repository to push and pull Docker images.
+## Prerequisites
 
-### 5. `GCS_BUCKET_NAME`
-- **Value**: The name of your Google Cloud Storage bucket (e.g., `my-terraform-state-bucket`).
-- **Purpose**: Used to store Terraform state files for backend management.
+- **Service account**:
+  - GCP account with necessary permissions.
+    - Information under rquirements/serviceAccount.md
 
-## Notes
-- Ensure all secrets are securely stored in your CI/CD platform (e.g., GitHub Actions Secrets or GitLab CI/CD Variables).
-- Do not expose these secrets in logs or output during pipeline execution.
+- **Secrets**:
+  - Set correct values in secrets
+    - Information under rquirements/secrets.md
+---
+
+## Deployment Steps
+
+1. **Build Docker Image**:
+   - Run the `image-build.yml` workflow in order to build and push the image to GCP Artifact Registry.
+
+2. **Provision Infrastructure**:
+   - Run the `terraform.yml` workflow in order to provision and deploy the GCP infrastructure via Terraform.
+
+---
+
+## Future Improvements
+
+- Add unit testing to improve application reliability.
+- Include monitoring and logging for deployed infrastructure.
+- Optimize CI/CD workflows for enhanced performance.
+
+---
+
+## Contributors
+
+- **Daniel (HelloDanielWorld)**: Developer and maintainer of the project.
