@@ -1,0 +1,46 @@
+name: Deploy to Google Cloud
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+      TF_VAR_google_project: ${{ secrets.GCP_PROJECT_ID }}
+      TF_VAR_google_region: ${{ secrets.GCP_REGION }}
+      TF_VAR_artifact_registry_repo: ${{ secrets.GCP_REPOSITORY }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Save Google credentials to file
+        run: |
+          echo "$GOOGLE_CREDENTIALS" > "/tmp/gcp-key.json"
+          chmod 600 "/tmp/gcp-key.json"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Initialize Terraform with backend config
+        working-directory: terraform
+        run: |
+          terraform init \
+            -backend-config="bucket=${{ secrets.GCS_BUCKET_NAME }}" \
+            -backend-config="prefix=terraform/state" \
+            -backend-config="credentials=/tmp/gcp-key.json"
+
+      - name: Validate Terraform
+        working-directory: terraform
+        run: terraform validate
+
+      - name: Plan Terraform
+        working-directory: terraform
+        run: terraform plan -out=tfplan
+
+      - name: Apply Terraform
+        working-directory: terraform
+        run: terraform apply -input=false -auto-approve tfplan

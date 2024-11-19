@@ -1,0 +1,36 @@
+name: Build and Push to Google Artifact Registry
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Authenticate with Google Cloud
+      - name: Set up Google Cloud authentication
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      # Step 3: Configure Docker to use Google Artifact Registry
+      - name: Configure Docker
+        run: gcloud auth configure-docker ${{ secrets.GCP_REGION }}-docker.pkg.dev
+
+      # Step 4: Build and tag the Docker image
+      - name: Build Docker image
+        working-directory: docker-image
+        run: |
+          docker build -t my-app .
+          docker tag my-app ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPOSITORY }}/my-app:latest
+
+      # Step 5: Push the Docker image to Google Artifact Registry
+      - name: Push Docker image
+        working-directory: docker-image
+        run: |
+          docker push ${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_REPOSITORY }}/my-app:latest
