@@ -54,15 +54,21 @@ The **GCP Image Cloud** project is designed to showcase the deployment of a cont
 - **Secrets**:
   - Set correct values in secrets
     - Information under rquirements/secrets.md
+   
 ---
 
 ## Deployment Steps
 
+**Workflow Configuration**:
+  - Both workflows are configured to be triggered manually, providing flexibility and control over the build and deployment process. 
+  - This configuration can be easily modified to suit your preferred triggering mechanism, such as automated triggers based on code commits or schedule-based triggers.
+
 1. **Build Docker Image**:
-   - Run the `image-build.yml` workflow in order to build and push the image to GCP Artifact Registry.
+   - Execute the `image-build.yml` workflow to build the Docker image and push it to the GCP Artifact Registry.
 
 2. **Provision Infrastructure**:
-   - Run the `terraform.yml` workflow in order to provision and deploy the GCP infrastructure via Terraform.
+   - Execute the `terraform.yml` workflow to provision and deploy the required infrastructure on GCP using Terraform.
+
 
 ---
 
