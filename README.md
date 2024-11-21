@@ -49,11 +49,17 @@ The **GCP Image Cloud** project is designed to showcase the deployment of a cont
 
 - **Service account**:
   - GCP account with necessary permissions.
-    - Information under rquirements/serviceAccount.md
+    - Information under requirements/serviceAccount.md
 
+- **Cloud Storage Bucket**:
+  - To store the Terraform State File (Backend)
+  
+- **Artifact Registry**:
+  - To push the docker image and pull the image for deployment. 
+    
 - **Secrets**:
   - Set correct values in secrets
-    - Information under rquirements/secrets.md
+    - Information under requirements/secrets.md
    
 ---
 
