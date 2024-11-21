@@ -86,6 +86,9 @@ The **GCP Image Cloud** project is designed to showcase the deployment of a cont
 
 ---
 
+## Disclaimer
+- This project is designed for resource testing and educational purposes only. It is not intended for production use.
+
 ## Contributors
 
 - **Daniel (HelloDanielWorld)**: Developer and maintainer of the project.
