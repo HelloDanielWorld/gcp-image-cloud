@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **GCP Image Cloud** project is designed to showcase the deployment of a containerized Node.js application using Google Cloud Platform (GCP) infrastructure. This project leverages Docker, Terraform, and CI/CD workflows to ensure a streamlined and automated deployment pipeline.
+The **GCP Image Cloud** project is designed to showcase the deployment of a containerized Node.js application using Google Cloud Platform (GCP) infrastructure. This project leverages Docker, Terraform, and CI/CD workflows to ensure a streamlined and automated deployment pipeline. The final docker image is deployed via Cloud Run.
 
 ---
 
